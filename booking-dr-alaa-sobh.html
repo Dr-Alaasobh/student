@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استمارة حجز - د. علاء صبح</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#163832;
+    --ink-2:#0e2622;
+    --gold:#c9a24b;
+    --gold-light:#e8d9a8;
+    --cream:#f6f1e4;
+    --card:#fffdf8;
+    --red:#9b3a34;
+    --text:#2a2620;
+    --muted:#6b6455;
+    --line:#e2d9c2;
+    --shadow: 0 10px 30px rgba(22,56,50,0.10);
+    --s1:6px; --s2:10px; --s3:14px; --s4:18px; --s5:24px; --s6:32px; --s7:40px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(201,162,75,0.08), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(22,56,50,0.06), transparent 55%),
+      var(--cream);
+    color:var(--text);
+    font-family:'Tajawal', sans-serif;
+    min-height:100vh;
+    padding:var(--s6) var(--s4) 96px;
+  }
+  .wrap{max-width:760px;margin:0 auto;}
+
+  /* Letterhead */
+  .letterhead{
+    background:linear-gradient(160deg, var(--ink) 0%, var(--ink-2) 100%);
+    color:var(--gold-light);
+    border-radius:18px;
+    padding:var(--s6) var(--s5) var(--s5);
+    text-align:center;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+    border:1px solid rgba(201,162,75,0.35);
+  }
+  .letterhead::before, .letterhead::after{
+    content:"";
+    position:absolute;
+    top:16px; bottom:16px;
+    width:1px;
+    background:rgba(201,162,75,0.35);
+  }
+  .letterhead::before{right:16px;}
+  .letterhead::after{left:16px;}
+  .lh-eyebrow{
+    font-size:12px;
+    letter-spacing:2.5px;
+    color:var(--gold);
+    text-transform:uppercase;
+    font-weight:700;
+    margin:0 0 var(--s2);
+  }
+  .lh-name{
+    font-family:'Amiri', serif;
+    font-weight:700;
+    font-size:38px;
+    color:#fbf6e9;
+    margin:0;
+    line-height:1.3;
+  }
+  .lh-sub{
+    margin:var(--s2) 0 0;
+    font-size:14.5px;
+    color:var(--gold-light);
+    opacity:0.9;
+  }
+  .lh-tags{
+    display:flex;
+    gap:var(--s2);
+    justify-content:center;
+    margin-top:var(--s4);
+    flex-wrap:wrap;
+  }
+  .lh-tag{
+    border:1px solid rgba(201,162,75,0.55);
+    color:var(--gold-light);
+    font-size:12.5px;
+    padding:6px 16px;
+    border-radius:999px;
+    background:rgba(201,162,75,0.08);
+  }
+
+  /* Stepper */
+  .stepper{
+    display:flex;
+    margin:var(--s5) 0 var(--s4);
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .step-tab{
+    flex:1;
+    text-align:center;
+    padding:var(--s3) var(--s1);
+    border-left:1px solid var(--line);
+    position:relative;
+    transition:background .15s ease;
+  }
+  .step-tab:last-child{border-left:none;}
+  .step-tab .ord{
+    display:block;
+    font-family:'Amiri', serif;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:3px;
+  }
+  .step-tab .lbl{
+    display:block;
+    font-size:12.5px;
+    font-weight:700;
+    color:var(--muted);
+  }
+  .step-tab.active{background:var(--ink);}
+  .step-tab.active .ord, .step-tab.active .lbl{color:var(--gold-light);}
+  .step-tab.done .lbl{color:var(--ink);}
+  .step-tab.done .ord{color:var(--gold);}
+
+  /* Card */
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:var(--s6) var(--s5);
+    box-shadow:var(--shadow);
+  }
+  .card + .card{margin-top:var(--s4);}
+  .sec-title{
+    font-family:'Amiri', serif;
+    font-size:22px;
+    color:var(--ink);
+    margin:0 0 var(--s1);
+    font-weight:700;
+  }
+  .sec-desc{
+    font-size:13.5px;
+    color:var(--muted);
+    margin:0 0 var(--s6);
+    line-height:1.7;
+  }
+
+  .field{margin-bottom:var(--s5);}
+  .field:last-of-type{margin-bottom:0;}
+  .field label{
+    display:block;
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink);
+    margin-bottom:var(--s3);
+  }
+  .field label .req{color:var(--red); margin-inline-start:2px;}
+  .hint{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:var(--s1);
+  }
+  input[type=text], input[type=tel], textarea, select{
+    width:100%;
+    font-family:'Tajawal', sans-serif;
+    font-size:15px;
+    padding:13px 14px;
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    background:#fffefb;
+    color:var(--text);
+    outline:none;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+  input:focus, textarea:focus, select:focus{
+    border-color:var(--gold);
+    box-shadow:0 0 0 3px rgba(201,162,75,0.18);
+  }
+  textarea{resize:vertical; min-height:96px; line-height:1.6;}
+  .error-msg{
+    display:none;
+    font-size:12.5px;
+    color:var(--red);
+    margin-top:var(--s1);
+    font-weight:700;
+  }
+  .field.invalid input, .field.invalid select, .field.invalid textarea{
+    border-color:var(--red);
+  }
+  .field.invalid .error-msg{display:block;}
+
+  /* Choice cards (radio-styled) */
+  .choice-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(170px,1fr));
+    gap:var(--s4);
+    margin-top:2px;
+  }
+  .choice{
+    position:relative;
+  }
+  .choice input{
+    position:absolute;
+    opacity:0;
+    inset:0;
+    cursor:pointer;
+    width:100%;
+    height:100%;
+    margin:0;
+  }
+  .choice .box{
+    border:1.6px solid var(--line);
+    border-radius:12px;
+    padding:16px 14px;
+    min-height:56px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-weight:700;
+    font-size:14.5px;
+    line-height:1.4;
+    color:var(--text);
+    background:#fffefb;
+    box-shadow:0 1px 2px rgba(22,56,50,0.04);
+    transition:all .15s ease;
+  }
+  .choice input:checked + .box{
+    border-color:var(--ink);
+    background:var(--ink);
+    color:var(--gold-light);
+    box-shadow:0 4px 10px rgba(22,56,50,0.18);
+  }
+  .choice input:focus-visible + .box{
+    box-shadow:0 0 0 3px rgba(201,162,75,0.35);
+  }
+
+  .center-box{
+    margin-top:var(--s5);
+    display:none;
+  }
+  .center-box.show{display:block;}
+
+  /* Buttons */
+  .btn-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:var(--s3);
+    margin-top:var(--s6);
+    padding-top:var(--s5);
+    border-top:1px solid var(--line);
+  }
+  button{
+    font-family:'Tajawal', sans-serif;
+    font-weight:700;
+    font-size:15px;
+    padding:13px 28px;
+    border-radius:10px;
+    cursor:pointer;
+    border:none;
+    transition:transform .1s ease, background .15s ease, opacity .15s ease;
+  }
+  button:active{transform:scale(0.97);}
+  .btn-primary{
+    background:var(--ink);
+    color:var(--gold-light);
+  }
+  .btn-primary:hover{background:var(--ink-2);}
+  .btn-ghost{
+    background:transparent;
+    color:var(--ink);
+    border:1.6px solid var(--line);
+  }
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-confirm{
+    background:var(--gold);
+    color:var(--ink-2);
+    width:100%;
+    font-size:16.5px;
+    padding:16px;
+    letter-spacing:.3px;
+  }
+  .btn-confirm:hover{background:#d8b25f;}
+
+  /* Review */
+  .review-list{list-style:none; margin:0; padding:0;}
+  .review-list li{
+    display:flex;
+    justify-content:space-between;
+    gap:var(--s4);
+    padding:13px 0;
+    border-bottom:1px dashed var(--line);
+    font-size:14px;
+  }
+  .review-list li:first-child{padding-top:0;}
+  .review-list li:last-child{border-bottom:none; padding-bottom:0;}
+  .review-list .k{color:var(--muted); white-space:nowrap;}
+  .review-list .v{font-weight:700; color:var(--ink); text-align:left;}
+  .review-note{
+    background:#faf5e6;
+    border:1px solid var(--gold-light);
+    border-radius:10px;
+    padding:var(--s4);
+    font-size:13px;
+    color:var(--muted);
+    margin-top:var(--s5);
+    line-height:1.8;
+  }
+
+  /* ===== Receipt ===== */
+  .receipt-wrap{display:none;}
+  .receipt-wrap.show{display:block; animation:fadeUp .5s ease;}
+  @keyframes fadeUp{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+  }
+
+  .receipt-frame{
+    padding:5px;
+    background:linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 45%, var(--gold) 100%);
+    border-radius:22px;
+    box-shadow:var(--shadow);
+  }
+  #receipt{
+    background:var(--card);
+    border-radius:18px;
+    padding:var(--s7) var(--s6);
+    position:relative;
+    overflow:hidden;
+    border:1px solid rgba(201,162,75,0.4);
+  }
+  #receipt::before{
+    content:"د. علاء صبح";
+    position:absolute;
+    top:46%;
+    left:50%;
+    transform:translate(-50%,-50%) rotate(-24deg);
+    font-family:'Amiri', serif;
+    font-weight:700;
+    font-size:64px;
+    color:var(--ink);
+    opacity:0.035;
+    white-space:nowrap;
+    pointer-events:none;
+    letter-spacing:2px;
+  }
+
+  .receipt-ticket{
+    display:flex;
+    align-items:stretch;
+    border:2px solid var(--ink);
+    border-radius:14px;
+    overflow:hidden;
+    margin-bottom:var(--s5);
+    position:relative;
+    z-index:1;
+    background:var(--card);
+    box-shadow:0 0 0 4px var(--card), 0 0 0 5.5px var(--gold), var(--shadow);
+  }
+  .rt-brand{
+    background:#f5dcc3;
+    border-left:2px solid var(--ink);
+    min-width:118px;
+    padding:14px 16px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:5px;
+    text-align:center;
+  }
+  .rt-brand .rt-tag{
+    font-size:13.5px;
+    font-weight:800;
+    color:var(--ink);
+  }
+  .rt-brand .rt-doc{
+    font-family:'Amiri', serif;
+    font-size:13.5px;
+    font-weight:800;
+    color:var(--ink);
+    white-space:nowrap;
+  }
+  .rt-info{
+    flex:1;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:9px;
+    padding:14px 20px;
+  }
+  .rt-info .rt-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    font-size:14.5px;
+  }
+  .rt-info .rt-row .rt-k{
+    color:var(--text);
+    font-weight:700;
+    white-space:nowrap;
+  }
+  .rt-info .rt-row .rt-v{
+    color:var(--ink);
+    font-weight:800;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .rt-id{
+    background:#151515;
+    color:#fbf6e9;
+    min-width:150px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:14px 18px;
+  }
+  .rt-id .rt-id-label{
+    color:var(--gold);
+    font-weight:800;
+    font-size:16px;
+  }
+  .rt-id .rt-id-val{
+    font-family:'Amiri', serif;
+    font-weight:700;
+    font-size:21px;
+    letter-spacing:1.5px;
+  }
+
+  @media(max-width:480px){
+    .receipt-ticket{flex-direction:column;}
+    .rt-brand{border-left:none; border-bottom:2px solid var(--ink); flex-direction:row; min-width:0; padding:10px 14px;}
+    .rt-id{min-width:0;}
+  }
+
+  /* Cut line separating the keepsake ticket from the full-detail copy below */
+  .cut-line{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:var(--s6) calc(-1 * var(--s6)) var(--s5);
+    padding:0 18px;
+    position:relative;
+    z-index:1;
+    color:var(--muted);
+  }
+  .cut-line .scissors{
+    font-size:17px;
+    line-height:1;
+    transform:rotate(90deg);
+    flex:none;
+  }
+  .cut-line .cut-dashes{
+    flex:1;
+    border-top:2px dashed var(--muted);
+    height:0;
+  }
+  .cut-line .cut-label{
+    font-size:10.5px;
+    letter-spacing:1.5px;
+    white-space:nowrap;
+    flex:none;
+  }
+
+  .receipt-group{position:relative; z-index:1;}
+  .receipt-group + .receipt-group{margin-top:var(--s5);}
+  .rg-title{
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--gold);
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin:0 0 var(--s2);
+  }
+  .receipt-list{list-style:none;margin:0;padding:0;}
+  .receipt-list li{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:var(--s3);
+    padding:11px 0;
+    border-bottom:1px solid var(--line);
+    font-size:14px;
+  }
+  .receipt-list li:last-child{border-bottom:none;}
+  .receipt-list .k{color:var(--muted); white-space:nowrap;}
+  .receipt-list .v{font-weight:700; color:var(--ink); text-align:left;}
+
+  .receipt-foot{
+    margin-top:var(--s6);
+    padding-top:var(--s4);
+    border-top:1px dashed var(--line);
+    font-size:11.5px;
+    color:var(--muted);
+    text-align:center;
+    line-height:1.9;
+    position:relative;
+    z-index:1;
+  }
+  .receipt-actions{
+    display:flex;
+    gap:var(--s3);
+    margin-top:var(--s5);
+  }
+  .receipt-actions button{flex:1;}
+  .download-hint{
+    text-align:center;
+    font-size:12px;
+    color:var(--muted);
+    margin-top:var(--s3);
+    line-height:1.7;
+  }
+
+  @media(max-width:520px){
+    .lh-name{font-size:29px;}
+    .card{padding:var(--s5) var(--s4);}
+    #receipt{padding:var(--s6) var(--s4);}
+    .step-tab .lbl{font-size:11px;}
+    .step-tab .ord{font-size:11px;}
+    #receipt::before{font-size:42px;}
+  }
+
+  @media print{
+    @page{ margin:0; }
+    html, body{ background:#fff !important; margin:0 !important; padding:0 !important; }
+    body *{ visibility:hidden; }
+    .receipt-frame, .receipt-frame *{ visibility:visible; }
+    .letterhead, .stepper, #bookingForm, .receipt-actions, .download-hint{ display:none !important; }
+    .wrap{ max-width:none; margin:0; padding:0; }
+    .receipt-frame{
+      position:absolute;
+      top:0; left:0;
+      margin:0;
+      box-shadow:none !important;
+    }
+    #receipt{ box-shadow:none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="letterhead">
+    <p class="lh-eyebrow">استمارة تسجيل رسمية</p>
+    <h1 class="lh-name">د. علاء صبح</h1>
+    <p class="lh-sub">حجز مكان لحصص المرحلة الأولى &middot; المحاسبة المالية وإدارة الأعمال</p>
+    <div class="lh-tags">
+      <span class="lh-tag">دسوق</span>
+      <span class="lh-tag">فوة</span>
+    </div>
+  </div>
+
+  <div class="stepper" id="stepper">
+    <div class="step-tab" data-step="1"><span class="ord">القسم الأول</span><span class="lbl">بيانات الطالب</span></div>
+    <div class="step-tab" data-step="2"><span class="ord">القسم الثاني</span><span class="lbl">التواصل</span></div>
+    <div class="step-tab" data-step="3"><span class="ord">القسم الثالث</span><span class="lbl">بيانات إضافية</span></div>
+    <div class="step-tab" data-step="4"><span class="ord">القسم الرابع</span><span class="lbl">المراجعة</span></div>
+  </div>
+
+  <form id="bookingForm" novalidate>
+
+    <!-- STEP 1 -->
+    <div class="card step-panel" data-step="1">
+      <h2 class="sec-title">بيانات الطالب الأساسية</h2>
+      <p class="sec-desc">فضلًا أدخل بيانات الطالب كما هي مسجلة، لضمان دقة عملية الحجز.</p>
+
+      <div class="field" id="f-name">
+        <label>الاسم رباعي<span class="req">*</span></label>
+        <input type="text" id="studentName" placeholder="مثال: محمد أحمد علي حسن">
+        <p class="error-msg">من فضلك اكتب الاسم رباعيًا كاملًا.</p>
+      </div>
+
+      <div class="field" id="f-city">
+        <label>المدينة<span class="req">*</span></label>
+        <div class="choice-grid">
+          <label class="choice">
+            <input type="radio" name="city" value="دسوق">
+            <span class="box">دسوق</span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="city" value="فوة">
+            <span class="box">فوة</span>
+          </label>
+        </div>
+        <p class="error-msg">من فضلك اختر المدينة.</p>
+      </div>
+
+      <div class="field center-box" id="f-center">
+        <label>السنتر<span class="req">*</span></label>
+        <div class="choice-grid" id="centerOptions"></div>
+        <p class="error-msg">من فضلك اختر السنتر.</p>
+      </div>
+
+      <div class="btn-row">
+        <span></span>
+        <button type="button" class="btn-primary" onclick="goTo(2)">التالي</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="card step-panel" data-step="2" style="display:none;">
+      <h2 class="sec-title">بيانات التواصل</h2>
+      <p class="sec-desc">رقم هاتف الطالب لازم يكون على واتساب، حتى نقدر نوصل التفاصيل ومواعيد الحصص بسهولة.</p>
+
+      <div class="field" id="f-studentPhone">
+        <label>رقم هاتف الطالب (واتساب)<span class="req">*</span></label>
+        <input type="tel" id="studentPhone" placeholder="01xxxxxxxxx" dir="ltr">
+        <p class="hint">يُفضّل أن يكون هذا الرقم مفعّلًا على واتساب.</p>
+        <p class="error-msg">من فضلك أدخل رقم هاتف مصري صحيح (11 رقم).</p>
+      </div>
+
+      <div class="field" id="f-parentPhone">
+        <label>رقم هاتف ولي الأمر<span class="req">*</span></label>
+        <input type="tel" id="parentPhone" placeholder="01xxxxxxxxx" dir="ltr">
+        <p class="error-msg">من فضلك أدخل رقم هاتف مصري صحيح (11 رقم).</p>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn-ghost" onclick="goTo(1)">السابق</button>
+        <button type="button" class="btn-primary" onclick="goTo(3)">التالي</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="card step-panel" data-step="3" style="display:none;">
+      <h2 class="sec-title">بيانات إضافية</h2>
+      <p class="sec-desc">بيانات تساعدنا نتابع مع الطالب بشكل أفضل.</p>
+
+      <div class="field" id="f-address">
+        <label>العنوان<span class="req">*</span></label>
+        <input type="text" id="address" placeholder="مثال: شارع الجمهورية، بجوار...">
+        <p class="error-msg">من فضلك أدخل العنوان.</p>
+      </div>
+
+      <div class="field" id="f-school">
+        <label>المدرسة<span class="req">*</span></label>
+        <input type="text" id="school" placeholder="اسم المدرسة">
+        <p class="error-msg">من فضلك أدخل اسم المدرسة.</p>
+      </div>
+
+      <div class="field" id="f-subject">
+        <label>المادة التي يرغب في دراستها<span class="req">*</span></label>
+        <div class="choice-grid">
+          <label class="choice">
+            <input type="radio" name="subject" value="المحاسبة المالية">
+            <span class="box">المحاسبة المالية</span>
+          </label>
+          <label class="choice">
+            <input type="radio" name="subject" value="إدارة الأعمال">
+            <span class="box">إدارة الأعمال</span>
+          </label>
+        </div>
+        <p class="error-msg">من فضلك اختر المادة.</p>
+      </div>
+
+      <div class="field">
+        <label>هل لديك أي ظروف خاصة أو صعوبات مادية ترغب في إبلاغنا بها؟ <span style="color:var(--muted); font-weight:400;">(اختياري)</span></label>
+        <textarea id="specialNotes" placeholder="اكتبها لنا وسنحاول مساعدتك على قدر الإمكان."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn-ghost" onclick="goTo(2)">السابق</button>
+        <button type="button" class="btn-primary" onclick="goTo(4)">التالي</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="card step-panel" data-step="4" style="display:none;">
+      <h2 class="sec-title">مراجعة البيانات وتأكيد الحجز</h2>
+      <p class="sec-desc">من فضلك راجع البيانات قبل التأكيد النهائي.</p>
+
+      <ul class="review-list" id="reviewList"></ul>
+
+      <div class="review-note">بعد الضغط على "تأكيد الحجز" سيتم إنشاء رقم قيد خاص بالطالب، ويمكنك تحميل الوصل كملف PDF للاحتفاظ به.</div>
+
+      <div class="btn-row" style="flex-direction:column;">
+        <button type="button" class="btn-confirm" onclick="confirmBooking()">تأكيد الحجز</button>
+        <button type="button" class="btn-ghost" style="width:100%; margin-top:12px;" onclick="goTo(3)">رجوع للتعديل</button>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- RECEIPT -->
+  <div class="receipt-wrap" id="receiptWrap">
+    <div class="receipt-frame">
+      <div id="receipt">
+        <div class="receipt-ticket">
+          <div class="rt-brand">
+            <span class="rt-tag">حجز</span>
+            <span class="rt-doc">د.علاء صبح</span>
+          </div>
+          <div class="rt-info">
+            <div class="rt-row"><span class="rt-k">الطالب :</span><span class="rt-v" id="rt-student">--</span></div>
+            <div class="rt-row"><span class="rt-k">السنتر :</span><span class="rt-v" id="rt-center">--</span></div>
+          </div>
+          <div class="rt-id">
+            <span class="rt-id-label">ID:</span>
+            <span class="rt-id-val" id="seal-id">000000</span>
+          </div>
+        </div>
+
+        <div class="cut-line">
+          <span class="scissors">✂</span>
+          <span class="cut-dashes"></span>
+          <span class="cut-label">خط القص</span>
+          <span class="cut-dashes"></span>
+        </div>
+
+        <div class="receipt-group">
+          <p class="rg-title">نسخة كاملة بجميع تفاصيل الحجز</p>
+          <ul class="receipt-list" id="receiptListFull"></ul>
+        </div>
+
+        <div class="receipt-foot">
+          هذا الوصل يُثبت تسجيل الطالب في استمارة الحجز الخاصة بـ د. علاء صبح.<br>
+          يُرجى الاحتفاظ برقم القيد أعلاه لأي تواصل لاحق.
+        </div>
+      </div>
+    </div>
+
+    <div class="receipt-actions">
+      <button type="button" class="btn-ghost" onclick="location.reload()">حجز جديد</button>
+      <button type="button" class="btn-primary" id="downloadBtn" onclick="downloadPDF()">تحميل الوصل PDF</button>
+    </div>
+    <p class="download-hint">هتفتح نافذة الطباعة: اختر "حفظ كـ PDF" (Save as PDF)، وتأكد إن خيار "الرؤوس والتذييلات" (Headers and footers) متوقف، ومقاس الورق هيتظبط تلقائيًا على قد الوصل.</p>
+  </div>
+
+</div>
+
+<script>
+const centersByCity = {
+  "فوة": ["أحمد رجب"],
+  "دسوق": ["الباشا", "مركز تكنولوجيا المعلومات الإدارية"]
+};
+
+let currentStep = 1;
+
+function updateStepper(step){
+  document.querySelectorAll('.step-tab').forEach(tab=>{
+    const s = parseInt(tab.dataset.step);
+    tab.classList.remove('active','done');
+    if(s === step) tab.classList.add('active');
+    else if(s < step) tab.classList.add('done');
+  });
+}
+
+function showStep(step){
+  document.querySelectorAll('.step-panel').forEach(p=>{
+    p.style.display = (parseInt(p.dataset.step) === step) ? 'block' : 'none';
+  });
+  updateStepper(step);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function clearError(fieldId){
+  const el = document.getElementById(fieldId);
+  if(el) el.classList.remove('invalid');
+}
+
+function setError(fieldId){
+  const el = document.getElementById(fieldId);
+  if(el) el.classList.add('invalid');
+}
+
+function validStep1(){
+  let ok = true;
+  const name = document.getElementById('studentName').value.trim();
+  if(name.split(/\s+/).filter(Boolean).length < 4){
+    setError('f-name'); ok = false;
+  } else clearError('f-name');
+
+  const city = document.querySelector('input[name=city]:checked');
+  if(!city){
+    setError('f-city'); ok = false;
+  } else clearError('f-city');
+
+  if(city){
+    const center = document.querySelector('input[name=center]:checked');
+    if(!center){ setError('f-center'); ok = false; }
+    else clearError('f-center');
+  }
+  return ok;
+}
+
+function validStep2(){
+  let ok = true;
+  const phoneRe = /^01[0125][0-9]{8}$/;
+  const sp = document.getElementById('studentPhone').value.trim();
+  if(!phoneRe.test(sp)){ setError('f-studentPhone'); ok = false; } else clearError('f-studentPhone');
+
+  const pp = document.getElementById('parentPhone').value.trim();
+  if(!phoneRe.test(pp)){ setError('f-parentPhone'); ok = false; } else clearError('f-parentPhone');
+
+  return ok;
+}
+
+function validStep3(){
+  let ok = true;
+  const addr = document.getElementById('address').value.trim();
+  if(!addr){ setError('f-address'); ok = false; } else clearError('f-address');
+
+  const school = document.getElementById('school').value.trim();
+  if(!school){ setError('f-school'); ok = false; } else clearError('f-school');
+
+  const subject = document.querySelector('input[name=subject]:checked');
+  if(!subject){ setError('f-subject'); ok = false; } else clearError('f-subject');
+
+  return ok;
+}
+
+function goTo(step){
+  if(currentStep === 1 && step > 1 && !validStep1()) return;
+  if(currentStep === 2 && step > 2 && !validStep2()) return;
+  if(currentStep === 3 && step > 3 && !validStep3()) return;
+
+  if(step === 4) buildReview();
+  currentStep = step;
+  showStep(step);
+}
+
+document.querySelectorAll('input[name=city]').forEach(input=>{
+  input.addEventListener('change', ()=>{
+    const city = input.value;
+    const centerOptions = document.getElementById('centerOptions');
+    centerOptions.innerHTML = '';
+    centersByCity[city].forEach((center, idx)=>{
+      const label = document.createElement('label');
+      label.className = 'choice';
+      label.innerHTML = `
+        <input type="radio" name="center" value="${center}" ${centersByCity[city].length===1 ? 'checked' : ''}>
+        <span class="box">${center}</span>
+      `;
+      centerOptions.appendChild(label);
+    });
+    document.getElementById('f-center').classList.add('show');
+    clearError('f-city');
+  });
+});
+
+function buildReview(){
+  const name = document.getElementById('studentName').value.trim();
+  const city = document.querySelector('input[name=city]:checked')?.value || '';
+  const center = document.querySelector('input[name=center]:checked')?.value || '';
+  const studentPhone = document.getElementById('studentPhone').value.trim();
+  const parentPhone = document.getElementById('parentPhone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const school = document.getElementById('school').value.trim();
+  const subject = document.querySelector('input[name=subject]:checked')?.value || '';
+  const notes = document.getElementById('specialNotes').value.trim();
+
+  const rows = [
+    ['اسم الطالب', name],
+    ['المدينة', city],
+    ['السنتر', center],
+    ['رقم الطالب (واتساب)', studentPhone],
+    ['رقم ولي الأمر', parentPhone],
+    ['العنوان', address],
+    ['المدرسة', school],
+    ['المادة', subject],
+  ];
+  if(notes){ rows.push(['ملاحظات خاصة', notes]); }
+
+  const list = document.getElementById('reviewList');
+  list.innerHTML = rows.map(r => `<li><span class="k">${r[0]}</span><span class="v">${r[1]}</span></li>`).join('');
+}
+
+function generateId(){
+  return String(Math.floor(100000 + Math.random()*900000));
+}
+
+async function confirmBooking(){
+  const id = generateId();
+  const name = document.getElementById('studentName').value.trim();
+  const city = document.querySelector('input[name=city]:checked')?.value || '';
+  const center = document.querySelector('input[name=center]:checked')?.value || '';
+  const subject = document.querySelector('input[name=subject]:checked')?.value || '';
+  const studentPhone = document.getElementById('studentPhone').value.trim();
+  const parentPhone = document.getElementById('parentPhone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const school = document.getElementById('school').value.trim();
+  const notes = document.getElementById('specialNotes').value.trim();
+  const request = {requestId:id,name,city,center,studentPhone,parentPhone,address,school,subject,notes,status:'pending',createdAt:firebase.database.ServerValue.TIMESTAMP};
+
+  try{
+    await firebase.database().ref('bookingRequests/'+id).set(request);
+  }catch(err){
+    console.error('booking save',err);
+    alert('تعذر حفظ الحجز حاليًا. تأكد من الاتصال بالإنترنت وحاول مرة أخرى.');
+    return;
+  }
+
+  document.getElementById('seal-id').textContent = id;
+  document.getElementById('rt-student').textContent = name;
+  document.getElementById('rt-center').textContent = center;
+  document.title = `وصل حجز ${id} - ${name}`;
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('ar-EG', {year:'numeric', month:'long', day:'numeric'});
+  const fullRows = [
+    ['رقم القيد', id],['اسم الطالب', name],['رقم هاتف الطالب', studentPhone],
+    ['رقم هاتف ولي الأمر', parentPhone],['المدينة', city],['السنتر', center],
+    ['المادة', subject],['المدرسة', school],['العنوان', address],['حالة الطلب','قيد مراجعة المسؤول'],['تاريخ الحجز',dateStr]
+  ];
+  if(notes){ fullRows.push(['ملاحظات خاصة', notes]); }
+  document.getElementById('receiptListFull').innerHTML = fullRows.map(r => `<li><span class="k">${r[0]}</span><span class="v">${r[1]}</span></li>`).join('');
+  document.getElementById('bookingForm').style.display = 'none';
+  document.getElementById('stepper').style.display = 'none';
+  document.getElementById('receiptWrap').classList.add('show');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function downloadPDF(){
+  const frame = document.querySelector('.receipt-frame');
+  const rect = frame.getBoundingClientRect();
+  const widthIn = (rect.width / 96).toFixed(3);
+  const heightIn = (rect.height / 96).toFixed(3);
+
+  let sizeTag = document.getElementById('dynamicPageSize');
+  if(!sizeTag){
+    sizeTag = document.createElement('style');
+    sizeTag.id = 'dynamicPageSize';
+    document.head.appendChild(sizeTag);
+  }
+  sizeTag.textContent = `@media print{ @page{ size:${widthIn}in ${heightIn}in; margin:0; } }`;
+
+  window.print();
+}
+
+showStep(1);
+</script>
+</body>
+</html>
